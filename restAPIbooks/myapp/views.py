@@ -1,4 +1,4 @@
-from django.shortcuts import render
+﻿from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
@@ -14,13 +14,18 @@ class AuthorCreateView(CreateAPIView):
     serializer_class = AuthorSerializer
 
 
-class ListAuthorsAPIView(ListAPIView):
+class AuthorsListView(ListAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['name', 'birth_date']
     ordering_fields = ['name', 'birth_date']
     ordering = ['name', '-birth_date']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Можно добавить кастомные фильтры, если потребуется
+        return queryset
 
 
 class BookCreateView(CreateAPIView):
@@ -40,3 +45,17 @@ class BookCreateView(CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=headers
         )
+
+
+class BooksListView(ListAPIView):
+    queryset = Book.objects.all().order_by('author', 'title')    # Сортировка по умолчанию
+    serializer_class = BookSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]    # Подключение фильтрации и сортировки
+    filterset_fields = ['author', 'genre', 'publication_date']    # Поля для фильтрации
+    ordering_fields = ['author', 'title', 'publication_date', 'genre']    # Поля для сортировки
+    ordering = ['author', 'title']    # Сортировка по умолчанию
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Можно добавить кастомные фильтры, если потребуется
+        return queryset

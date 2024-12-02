@@ -55,16 +55,16 @@ class BookSerializer(ModelSerializer):
         help_text="Provide the UUID of the author."
     )
     author = StringRelatedField(read_only=True)
-    available_authors = SerializerMethodField()
+    # available_authors = SerializerMethodField()
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author_id', 'author', 'available_authors', 'publication_date', 'genre']
+        fields = ['id', 'title', 'author_id', 'author', 'publication_date', 'genre']
 
-    def get_available_authors(self, obj):
-        """Возвращает список доступных авторов"""
-        authors = Author.objects.all()
-        return [{'id': author.id, 'name': str(author)} for author in authors]
+    # def get_available_authors(self, obj):
+    #     """Возвращает список доступных авторов"""
+    #     authors = Author.objects.all()
+    #     return [{'id': author.id, 'name': str(author)} for author in authors]
 
     def validate_author_id(self, value):
         """Проверка, что указанный author_id существует"""

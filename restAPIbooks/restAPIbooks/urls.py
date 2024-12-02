@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from myapp.views import AuthorCreateView, ListAuthorsAPIView, BookCreateView
+from myapp.views import AuthorCreateView, AuthorsListView, BookCreateView, BooksListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create/author/', AuthorCreateView.as_view(), name='create-author'),
-    path('authors/', ListAuthorsAPIView.as_view(), name='list-author'),
+    path('authors/', AuthorsListView.as_view(), name='list-author'),
     path('create/books/', BookCreateView.as_view(), name='create-book'),
+    path('books/', BooksListView.as_view(), name='list-books'),
 ]
