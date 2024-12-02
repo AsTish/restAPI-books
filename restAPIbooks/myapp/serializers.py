@@ -51,7 +51,7 @@ class AuthorSerializer(ModelSerializer):
 
 class BookSerializer(ModelSerializer):
     author_id = UUIDField(
-        write_only=True,
+        # write_only=True,
         help_text="Provide the UUID of the author."
     )
     author = StringRelatedField(read_only=True)
@@ -59,7 +59,7 @@ class BookSerializer(ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author_id', 'author', 'publication_date', 'genre']
+        fields = ['id', 'title', 'author', 'author_id', 'publication_date', 'genre']
 
     # def get_available_authors(self, obj):
     #     """Возвращает список доступных авторов"""

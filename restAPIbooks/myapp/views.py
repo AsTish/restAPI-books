@@ -48,12 +48,12 @@ class BookCreateView(CreateAPIView):
 
 
 class BooksListView(ListAPIView):
-    queryset = Book.objects.all().order_by('author', 'title')    # Сортировка по умолчанию
+    queryset = Book.objects.all().order_by('-publication_date', 'title')    # Сортировка по умолчанию
     serializer_class = BookSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]    # Подключение фильтрации и сортировки
     filterset_fields = ['author', 'genre', 'publication_date']    # Поля для фильтрации
     ordering_fields = ['author', 'title', 'publication_date', 'genre']    # Поля для сортировки
-    ordering = ['author', 'title']    # Сортировка по умолчанию
+    ordering = ['-publication_date', 'title']    # Сортировка по умолчанию
 
     def get_queryset(self):
         queryset = super().get_queryset()
