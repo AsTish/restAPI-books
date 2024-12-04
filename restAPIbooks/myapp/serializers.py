@@ -77,3 +77,13 @@ class BookSerializer(ModelSerializer):
         author_id = validated_data.pop('author_id')
         author = Author.objects.get(id=author_id)
         return Book.objects.create(author=author, **validated_data)
+
+    def validate(self, data):
+        title = data.get('title')
+        author = data.get('author')  # Здесь объект автора
+
+        if Book.objects.filter(title=title, author=author).exists():
+            raise ValidationError(
+                {"detail": f"A book with the title '{title}' already exists for this author."}
+            )
+        return data
