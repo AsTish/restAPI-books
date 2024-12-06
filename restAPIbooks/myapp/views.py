@@ -1,5 +1,5 @@
 ﻿from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
@@ -126,4 +126,50 @@ class BookDeleteView(DestroyAPIView):
         return Response(
             {"message": f"Book with ID '{book_id}' deleted successfully."},
             status=status.HTTP_204_NO_CONTENT
+        )
+
+
+class AuthorDeleteView(DestroyAPIView):
+    queryset = Author.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            author_id = kwargs.get('id')  # Получаем ID автора из URL
+            author = self.get_queryset().get(id=author_id)  # Пытаемся найти автора
+        except Author.DoesNotExist:
+            raise NotFound({"detail": f"Author '{author}' not found."})
+
+        # Удаляем автора (и связанные книги автоматически)
+        author.delete()
+        return Response(
+            {"message": f"Author '{author}' and all author's books deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+
+class BookUpdateView(UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    lookup_field = 'id'  # Поле для поиска книги
+
+    def update(self, request, *args, **kwargs):
+        try:
+            # Получаем объект книги
+            book_id = kwargs.get('id')
+            book = self.get_queryset().get(id=book_id)
+        except Book.DoesNotExist:
+            raise NotFound({"detail": f"Book with ID '{book_id}' not found."})
+
+        # Выполняем обновление с помощью сериализатора
+        partial = kwargs.pop('partial', False)  # Проверяем, является ли запрос частичным (PATCH)
+        serializer = self.get_serializer(book, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(
+            {
+                "message": f"Book with ID '{book_id}' updated successfully!",
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK
         )
