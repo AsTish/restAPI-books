@@ -52,9 +52,7 @@ Ensure you have Python 3.8+ and `pipenv` installed.
 
 Apply the database migrations:
 
-    ```
     python manage.py migrate
-    ```
 
 ### Step 4: Run the Development Server
 
