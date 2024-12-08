@@ -29,7 +29,6 @@ Clone the repository to your local machine:
 ```
 git clone https://github.com/AsTish/restAPI-books.git
 cd restAPI-books
-cd restAPIbooks
 ```
 
 ### Step 2: Set Up a Virtual Environment Using `pipenv`
@@ -47,6 +46,11 @@ Ensure you have Python 3.8+ and `pipenv` installed.
     ```
     pipenv shell
     ```
+3. Enter the programm folder
+
+   ```
+   cd restAPIbooks
+   ```
 
 ### Step 3: Set Up the Database
 
