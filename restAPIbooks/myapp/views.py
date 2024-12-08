@@ -14,6 +14,25 @@ class AuthorCreateView(CreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return Response(
+            {
+                "message": f"Author '{serializer.data['name']}' created successfully!",
+                "data": serializer.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+        data = request.data
+        if Author.objects.filter(name=data.get('name'), birth_date=data.get('birth_date')).exists():
+            raise ValidationError({"detail": "An author with this name and birth date already exists."})
+
+        return super().create(request, *args, **kwargs)
+
 
 class AuthorsListView(ListAPIView):
     queryset = Author.objects.all()
@@ -58,11 +77,19 @@ class BookCreateView(CreateAPIView):
         title = data.get('title')
         author_id = data.get('author')  # Убедитесь, что поле 'author' передается в запросе
 
-        # Проверяем наличие книги с таким же названием и автором
-        if Book.objects.filter(title=title, author_id=author_id).exists():
+        # # Проверяем наличие книги с таким же названием и автором
+        # if Book.objects.filter(title=title, author_id=author_id).exists():
+        #     raise ValidationError(
+        #         {"detail": f"A book with the title '{title}' already exists for this author."}
+        #     )
+
+        data = request.data
+        if Book.objects.filter(title=data.get('title'), author_id=data.get('author_id')).exists():
             raise ValidationError(
                 {"detail": f"A book with the title '{title}' already exists for this author."}
             )
+
+        return super().create(request, *args, **kwargs)
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)

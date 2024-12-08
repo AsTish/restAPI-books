@@ -27,28 +27,6 @@ class AuthorSerializer(ModelSerializer):
         return data
 
 
-# class BookSerializer(ModelSerializer):
-#     # Дополняем поле author, чтобы вводился только текст
-#     author = CharField(write_only=True, help_text="Enter the author's name.")
-#     author_id = PrimaryKeyRelatedField(read_only=True)
-
-#     class Meta:
-#         model = Book
-#         fields = ['id', 'title', 'author', 'author_id', 'publication_date', 'genre']
-
-#     def validate_author(self, value):
-#         """Валидация автора: проверка имени на корректность"""
-#         if not value.strip():
-#             raise ValidationError("Author name cannot be empty.")
-#         return value.strip()
-
-#     def create(self, validated_data):
-#         """Обработка создания книги с текстовым вводом автора"""
-#         author_name = validated_data.pop('author')  # Убираем 'author' из входных данных
-#         author, created = Author.objects.get_or_create(name=author_name)
-#         return Book.objects.create(author=author, **validated_data)
-
-
 class BookSerializer(ModelSerializer):
     author_id = UUIDField(
         # write_only=True,
