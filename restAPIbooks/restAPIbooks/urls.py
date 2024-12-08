@@ -53,9 +53,9 @@ urlpatterns = [
     path('books/', BooksListView.as_view(), name='list-books'),
     path('authors/<uuid:id>/', AuthorDetailView.as_view(), name='author-detail'),
     path('books/<uuid:id>/', BookDetailView.as_view(), name='book_detail'),
-    path('books/delete/<uuid:id>/', BookDeleteView.as_view(), name='book-delete'),
-    path('authors/delete/<uuid:id>/', AuthorDeleteView.as_view(), name='author-delete'),
-    path('books/update/<uuid:id>/', BookUpdateView.as_view(), name='book-update'),
+    path('books/delete/<uuid:id>/', BookDeleteView.as_view(), name='delete-book'),
+    path('authors/delete/<uuid:id>/', AuthorDeleteView.as_view(), name='delete-author'),
+    path('books/update/<uuid:id>/', BookUpdateView.as_view(), name='update-book'),
 
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

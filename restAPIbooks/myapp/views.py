@@ -164,7 +164,7 @@ class AuthorDeleteView(DestroyAPIView):
             author_id = kwargs.get('id')  # Получаем ID автора из URL
             author = self.get_queryset().get(id=author_id)  # Пытаемся найти автора
         except Author.DoesNotExist:
-            raise NotFound({"detail": f"Author '{author}' not found."})
+            raise NotFound({"detail": f"Author with id '{author_id} not found."})
 
         # Удаляем автора (и связанные книги автоматически)
         author.delete()
