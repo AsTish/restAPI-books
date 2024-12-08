@@ -15,7 +15,13 @@ class AuthorCreateView(CreateAPIView):
     serializer_class = AuthorSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        data = request.data
+        if Author.objects.filter(name=data.get('name'), birth_date=data.get('birth_date')).exists():
+            raise ValidationError(
+                {"detail": "An author with this name and birth date already exists."}
+            )
+
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
@@ -26,12 +32,6 @@ class AuthorCreateView(CreateAPIView):
             },
             status=status.HTTP_201_CREATED
         )
-
-        data = request.data
-        if Author.objects.filter(name=data.get('name'), birth_date=data.get('birth_date')).exists():
-            raise ValidationError({"detail": "An author with this name and birth date already exists."})
-
-        return super().create(request, *args, **kwargs)
 
 
 class AuthorsListView(ListAPIView):

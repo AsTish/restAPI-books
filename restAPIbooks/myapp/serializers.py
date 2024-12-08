@@ -60,8 +60,9 @@ class BookSerializer(ModelSerializer):
         title = data.get('title')
         author = data.get('author')  # Здесь объект автора
 
-        if Book.objects.filter(title=title, author=author).exists():
+        if Author.objects.filter(name=data.get('name'), birth_date=data.get('birth_date')).exists():
             raise ValidationError(
-                {"detail": f"A book with the title '{title}' already exists for this author."}
+                {"detail": "An author with this name and birth date already exists."}
             )
+
         return data

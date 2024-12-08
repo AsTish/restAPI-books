@@ -48,7 +48,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('authors/create', AuthorCreateView.as_view(), name='create-author'),
-    path('authors/', AuthorsListView.as_view(), name='list-author'),
+    path('authors/', AuthorsListView.as_view(), name='list-authors'),
     path('books/create', BookCreateView.as_view(), name='create-book'),
     path('books/', BooksListView.as_view(), name='list-books'),
     path('authors/<uuid:id>/', AuthorDetailView.as_view(), name='author-detail'),
