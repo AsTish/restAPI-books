@@ -313,6 +313,3 @@ class BookUpdateViewTest(APITestCase):
         # Проверка сообщения об ошибке
         self.assertIn('detail', response.data)
         self.assertEqual(response.data['detail'], f"Book with ID '{non_existent_id}' not found.")
-
-
-# test
