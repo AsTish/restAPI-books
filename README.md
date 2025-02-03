@@ -115,3 +115,36 @@ You can use Swagger UI to test the API. After starting the server, open your bro
 ```
 http://127.0.0.1:8000/swagger/
 ```
+
+Вот пример раздела о тестах для вашего файла `README`, который описывает, как выполнять тесты в проекте:
+
+---
+
+## Testing
+
+### Running the Tests
+
+This project includes tests to verify the functionality of the API endpoints and other components. The tests are written using Django's `TestCase` and `APITestCase` from the `rest_framework` package.
+
+To run the tests, you can use the following command:
+
+```bash
+python manage.py test
+```
+
+This command will discover and run all the tests in the project.
+
+### Test Coverage
+
+Currently, the project includes tests for the following scenarios:
+
+#### Author Tests
+- **Create a new author** (`POST /authors/`): Verifies successful creation of a new author.
+- **Create an existing author** (`POST /authors/`): Ensures that an attempt to create a duplicate author (with the same name and birth date) raises an error.
+- **Delete an author** (`DELETE /authors/{id}/`): Verifies successful deletion of an author and all associated books.
+
+#### Book Tests
+- **Create a new book** (`POST /books/`): Verifies successful creation of a new book.
+- **Create an existing book** (`POST /books/`): Ensures that an attempt to create a book with the same title and author raises an error.
+- **Update a book** (`PUT /books/{id}/`): Verifies successful update of a book's information.
+- **Delete a book** (`DELETE /books/{id}/`): Ensures that a book can be deleted successfully.
