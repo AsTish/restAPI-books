@@ -315,9 +315,4 @@ class BookUpdateViewTest(APITestCase):
         self.assertEqual(response.data['detail'], f"Book with ID '{non_existent_id}' not found.")
 
 
-# test
-# test 2
-# test 3
-# test 4
-# test 5
-# test 6
+# just to try smth
